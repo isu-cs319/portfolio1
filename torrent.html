@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio 1: WebTorrent</title>
+    <!-- General UI-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="torrent.css">
+    <!-- More compact JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- General Bootstrap UI interaction-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Include the latest version of WebTorrent -->
+    <script src="https://cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
+    <!-- Moment is used to show human readable remaining time -->
+    <script src="http://momentjs.com/downloads/moment.min.js"></script>
+    <script src="torrent.js"></script>
+</head>
+<body>
+<div id="hero">
+    <div id="output">
+        <div id="progressBar"></div>
+        <!-- The video player will be added here -->
+    </div>
+    <!-- Statistics -->
+    <div id="status">
+        <div>
+            <span class="show-leech">Downloading </span>
+            <span class="show-seed">Seeding </span>
+            <code>
+                <!-- Informative link to the torrent file -->
+                <a id="torrentLink" href="https://webtorrent.io/torrents/sintel.torrent">sintel.torrent</a>
+            </code>
+            <span class="show-leech"> from </span>
+            <span class="show-seed"> to </span>
+            <code id="numPeers">0 peers</code>.
+        </div>
+        <div>
+            <code id="downloaded"></code>
+            of <code id="total"></code>
+            — <span id="remaining"></span><br/>
+            &#x2198;<code id="downloadSpeed">0 b/s</code>
+            / &#x2197;<code id="uploadSpeed">0 b/s</code>
+        </div>
+    </div>
+</div>
+</body>
+</html>
