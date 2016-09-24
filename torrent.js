@@ -1,9 +1,7 @@
 /**
  * Created by schott on 23.09.16.
  */
-var WebTorrent = require('webtorrent')
-
-var torrentId = 'https://webtorrent.io/torrents/sintel.torrent'
+var torrentId = 'magnet:?xt=urn:btih:edbec04892199c188bb988a99f56aeac6c11a5aa&dn=pdfurl-guide.pdf&tr=udp%3A%2F%2Fexodus.desync.com%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss%3A%2F%2Ftracker.webtorrent.io'
 
 var client = new WebTorrent()
 
@@ -20,9 +18,23 @@ var $downloadSpeed = document.querySelector('#downloadSpeed')
 // Download the torrent
 client.add(torrentId, function (torrent) {
 
-    // Stream the file in the browser
-    torrent.files[0].appendTo('#output')
+    // Stream the first available file in files array in the browser
+    // torrent.files[0].appendTo('#output')
+    var file = torrent.files[0];
 
+    file.getBlobURL(function (err, url) {
+        if (err) throw err;
+        var a = document.createElement('a');
+        a.download = file.name;
+        a.href = url;
+        a.textContent = 'Download ' + file.name;
+        document.body.appendChild(a)
+    })
+});
+
+
+
+/* Too unstable, commented out for now.
     // Trigger statistics refresh
     torrent.on('done', onDone)
     setInterval(onProgress, 500)
@@ -31,7 +43,7 @@ client.add(torrentId, function (torrent) {
     // Statistics
     function onProgress () {
         // Peers
-        $numPeers.innerHTML = torrent.numPeers + (torrent.numPeers === 1 ? ' peer' : ' peers')
+        $numPeers.innerHTML = torrent.numPeers + ' peers'
 
         // Progress
         var percent = Math.round(torrent.progress * 100 * 100) / 100
@@ -68,4 +80,4 @@ function prettyBytes(num) {
     num = Number((num / Math.pow(1000, exponent)).toFixed(2))
     unit = units[exponent]
     return (neg ? '-' : '') + num + ' ' + unit
-}
+}*/
