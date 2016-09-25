@@ -18,7 +18,7 @@ client.add(torrentId, function (torrent) {
             a.download = file.name;
             a.href = '#';
             a.onclick = downloadFile(id);
-            a.className += " list-group-item";
+            a.className += " list-group-item disabled";
             a.textContent = file.name;
             document.getElementById("file").appendChild(a);
             id++;
@@ -81,8 +81,9 @@ client.add(torrentId, function (torrent) {
             var as = document.getElementsByTagName("a");
             var i;
             for (i = 0; i < as.length; i++) {
-                if (as[i].href.slice(-1) != "#") {
-                    as[i].className += " list-group-item-success";
+                if (as[i].href.slice(-1) != "#" && as[i].classList.contains("disabled")) {
+                    as[i].className = " list-group-item";
+                    as[i].innerHTML += '<span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>';
                 }
             }
         }
