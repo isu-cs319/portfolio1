@@ -1,7 +1,7 @@
 /**
  * Created by schott on 23.09.16.
  */
-var torrentId = getSessionStorage("torrent-dl");
+var torrentId = getHtmlStorage("torrent-dl");
 var client = new WebTorrent()
 var totalBytes = 0;
 

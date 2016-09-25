@@ -33,6 +33,7 @@ function getSessionStorage(key){
 function setHtmlStorage(key, value){
     localStorage.setItem(key, value);
 }
+
 function getHtmlStorage(key){
     return localStorage.getItem(key);
 }

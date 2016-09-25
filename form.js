@@ -3,15 +3,24 @@
  */
 function setTorrentLink(){
     var torrentLink = document.forms["download-form"]["torrentlink"].value;
-    return checkHTMLStorage(setSessionStorage,'torrent-dl',torrentLink)
+    return checkHTMLStorage(setHtmlStorage,'torrent-dl',torrentLink)
 }
 
 var client = new WebTorrent();
+var files = []; // Keeps track of encountered files
+new Clipboard('.clip');  // Copy to clipboard action
+
+
 function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();
+    //var files = evt.dataTransfer.files;
     // files is a FileList of File objects.
-    var files = evt.dataTransfer.files; // FileList object.
+    var count = evt.dataTransfer.files.length;
+    var i;
+    for (i=0; i < count; i++){
+        files.push(evt.dataTransfer.files[i]);
+    }
     client.seed(files, function (torrent) {
         console.log('Client is seeding:', torrent.infoHash);
         var output = [];
@@ -20,10 +29,12 @@ function handleFileSelect(evt) {
                 f.size, ' bytes',
                 '</li>');
         }
+        // Update list
         document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-        document.getElementById('uri').href = torrent.magnetURI;
+        // Update magnet URI
+        document.getElementById('uri').value = torrent.magnetURI;
         document.getElementById('uri').style.display = "inline-block";
-
+        document.getElementById('clip-btn').style.display = "inline-block";
         // Setup connection updates
         setInterval(onUpload, 300);
 
@@ -54,6 +65,7 @@ function prettyBytes(num) {
     unit = units[exponent]
     return (neg ? '-' : '') + num + ' ' + unit
 }
+
 
 // Setup the dnd listeners.
 var dropZone = document.getElementById('drop_zone');
