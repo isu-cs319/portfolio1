@@ -15,9 +15,6 @@
     <script src="http://momentjs.com/downloads/moment.min.js"></script>
     <!-- Drag&Drop-->
     <script type="text/javascript" src="https://rawgit.com/feross/drag-drop/master/dragdrop.min.js"></script>
-    <!-- HTML local storage, cookie ops -->
-    <script src="storageOps.js"></script>
-    <script src="form.js"></script>
   </head>
   <body>
   <div class="container">
@@ -58,24 +55,29 @@
                   <h4 class="modal-title">Seed file(s)</h4>
               </div>
               <div class="modal-body">
-                  <div class="jumbotron" id="dropbox">
+                  <div class="jumbotron" id="drop_zone">
                       <h3 class="text-center">Drag & Drop here</h3>
                   </div>
-                      <form enctype="multipart/form-data" onsubmit="return seedFiles();">
+                  <output id="list"></output>
+                      <!--<form action="" enctype="multipart/form-data" onsubmit="return seedFiles();">
                           <div class="form-group">
                               <label for="seedFiles[]">File input</label>
-                              <input type="file" id="seedFiles[]" name="seedFiles[]" multiple><br>
+                              <input type="file" id="seedFiles[]" name="seedFiles[]" multiple />
                               <p class="help-block">Or upload here.</p>
                           </div>
                           <button type="submit" class="btn btn-default">Seed</button>
-                      </form>
+                      </form>-->
               </div>
               <div class="modal-footer">
+                  <a href="#" target="_blank" id="uri" style="float:left; display:none;">[Magnet URI]</a>
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
           </div>
 
       </div>
   </div>
+  <!-- HTML local storage, cookie ops -->
+  <script src="storageOps.js"></script>
+  <script src="form.js"></script>
   </body>
 </html>
