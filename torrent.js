@@ -20,6 +20,8 @@ client.add(torrentId, function (torrent) {
             a.onclick = downloadFile(id);
             a.className += " list-group-item disabled";
             a.textContent = file.name;
+	    a.filesize = prettyBytes(file.length);
+	    a.filetype = file.name.substring(file.name.lastIndexOf(".")+1);
             document.getElementById("file").appendChild(a);
             id++;
         });
@@ -83,7 +85,7 @@ client.add(torrentId, function (torrent) {
             for (i = 0; i < as.length; i++) {
                 if (as[i].href.slice(-1) != "#" && as[i].classList.contains("disabled")) {
                     as[i].className = " list-group-item";
-                    as[i].innerHTML += '<span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>';
+		    as[i].innerHTML += " --- File Size: " + as[i].filesize + " --- File Type: " + as[i].filetype;
                 }
             }
         }
