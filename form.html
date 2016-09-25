@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebTorrent Form</title>
+    <!-- General UI-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="torrent.css">
+    <!-- More compact JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- General Bootstrap UI interaction-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Include the latest version of WebTorrent-->
+    <script src="https://cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
+    <!-- Moment is used to show human readable remaining time -->
+    <script src="http://momentjs.com/downloads/moment.min.js"></script>
+  </head>
+  <body>
+    <form id="form" method="GET" action="torrent.html">
+      <fieldset>
+	<legend> Enter Torrent/Magnet Link: </legend>
+	<input type="text" placeholder="Torrent/Magnet Link" id="torrentlink" name="torrentlink">
+	<br><br>
+
+	<input type="submit" value="Continue">
+      </fieldset>
+    </form>
+  </body>
+</html>
