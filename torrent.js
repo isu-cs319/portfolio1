@@ -5,28 +5,36 @@ var torrentId = getSessionStorage("torrent-dl");
 var client = new WebTorrent()
 var totalBytes = 0;
 
+
 // Download the torrent
 client.add(torrentId, function (torrent) {
-
-    // TODO: Add option to Stream files using appendTo
-    // torrent.files[0].appendTo('#output')
-
-    torrent.files.forEach(function(file){
-        // Count bytes
-        totalBytes += file.length;
-        file.getBlobURL(function (err, url) {
-            if (err) throw err;
+    client.on('torrent', function (torrent) {
+        var id = 0;
+        // Display all available files while they are being downloaded
+        torrent.files.forEach(function (file) {
+            // Count bytes
+            totalBytes += file.length;
             var a = document.createElement('a');
             a.download = file.name;
-            a.href = url;
+            a.href = '#';
+            a.onclick = downloadFile(id);
             a.className += " list-group-item";
-            a.textContent = 'Download ' + file.name;
+            a.textContent = file.name;
             document.getElementById("file").appendChild(a);
+            id++;
         });
+        // Create download link
+        function downloadFile(id) {
+            torrent.files[id].getBlobURL(function (err, url) {
+                if (err) throw err;
+                var link = document.getElementsByTagName("a").item(id);
+                link.href = url;
+            });
+        }
     });
     setInterval(onProgress, 300);
 
-    function onProgress () {
+    function onProgress() {
         var downloaded = 'Download speed:' + prettyBytes(torrent.downloadSpeed) + '/s'
 
         // Remaining time
@@ -35,15 +43,16 @@ client.add(torrentId, function (torrent) {
         // Check if completed
         if (torrent.done) {
             remaining = 'Done.';
+            // TODO: keep this, continue seeding?
             document.getElementById("summary")
-                .style.display="none";
+             .style.display="none";
             document.getElementById("success-box")
-                .style.display="inline-block";
+                .style.display = "inline-block";
             document.getElementById("success-box")
                 .firstElementChild
-                .innerHTML="<strong>Done! </strong>" +
+                .innerHTML = "<strong>Done! </strong>" +
                 " Downloaded " + torrent.files.length +
-                    " files with total size " + prettyBytes(totalBytes);
+                " files with total size " + prettyBytes(totalBytes);
         } else {
             remaining = moment.duration(torrent.timeRemaining / 1000, 'seconds').humanize();
             remaining = remaining[0].toUpperCase() + remaining.substring(1) + ' remaining.';
@@ -58,19 +67,27 @@ client.add(torrentId, function (torrent) {
             .innerHTML = downloaded;
 
         // Upload Speed
-        if (torrent.uploadSpeed > 0){
+        if (torrent.uploadSpeed > 0) {
             document.getElementById("upload")
-                .innerHTML = 'Upload Speed: '+ prettyBytes(torrent.uploadSpeed) + '/s'
+                .innerHTML = 'Upload Speed: ' + prettyBytes(torrent.uploadSpeed) + '/s'
         }
-        else{
+        else {
             document.getElementById("upload")
                 .innerHTML = '';
         }
+        // Update download links once ready
+        checkCompletion();
+        function checkCompletion() {
+            var as = document.getElementsByTagName("a");
+            var i;
+            for (i = 0; i < as.length; i++) {
+                if (as[i].href.slice(-1) != "#") {
+                    as[i].className += " list-group-item-success";
+                }
+            }
+        }
     }
-
-
 });
-
 // Fetches GET variables from URL
 function getUrlVars() {
     var vars = {};
