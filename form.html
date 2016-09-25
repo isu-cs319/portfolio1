@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WebTorrent Form</title>
+    <title>Portfolio 1: RTC-WebTorrent</title>
     <!-- General UI-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="torrent.css">
@@ -15,6 +15,8 @@
     <script src="http://momentjs.com/downloads/moment.min.js"></script>
     <!-- Drag&Drop-->
     <script type="text/javascript" src="https://rawgit.com/feross/drag-drop/master/dragdrop.min.js"></script>
+      <!-- Copy to Clipboard -->
+      <script src="dist/clipboard.min.js"></script>
   </head>
   <body>
   <div class="container">
@@ -22,10 +24,10 @@
       <div id="selectbox" style="margin-top:50px;" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
           <div class="panel panel-success">
               <div class="panel-heading">
-                  <div class="panel-title">WebTorrent</div>
+                  <div class="panel-title text-center">WebTorrent</div>
               </div>
               <div style="padding-top:30px" class="panel-body">
-                  <div style="display:none" id="error-alert" class="alert alert-danger col-sm-12"></div>
+                  <div style="display:none;" id="error-alert" class="alert alert-danger col-sm-12"></div>
 
                   <form id="download-form" class="form-horizontal" role="form" action="torrent.html"
                         onsubmit="return setTorrentLink();">
@@ -59,21 +61,15 @@
                       <h3 class="text-center">Drag & Drop here</h3>
                   </div>
                   <output id="list"></output>
-                      <!--<form action="" enctype="multipart/form-data" onsubmit="return seedFiles();">
-                          <div class="form-group">
-                              <label for="seedFiles[]">File input</label>
-                              <input type="file" id="seedFiles[]" name="seedFiles[]" multiple />
-                              <p class="help-block">Or upload here.</p>
-                          </div>
-                          <button type="submit" class="btn btn-default">Seed</button>
-                      </form>-->
               </div>
               <div class="modal-footer">
                   <a href="#" target="_blank" id="uri" style="float:left; display:none;">[Magnet URI]</a>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <div id="upload-speed">
+                  </div>
+                  <div id="num-peers">
+                  </div>
               </div>
           </div>
-
       </div>
   </div>
   <!-- HTML local storage, cookie ops -->
