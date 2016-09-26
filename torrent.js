@@ -2,9 +2,8 @@
  * Created by schott on 23.09.16.
  */
 var torrentId = getHtmlStorage("torrent-dl");
-var client = new WebTorrent()
+var client = new WebTorrent();
 var totalBytes = 0;
-
 
 // Download the torrent
 client.add(torrentId, function (torrent) {
@@ -12,6 +11,11 @@ client.add(torrentId, function (torrent) {
         var id = 0;
         // Display all available files while they are being downloaded
         torrent.files.forEach(function (file) {
+            var table =  document.getElementById("torrent-file-table");
+            var row = table.insertRow(id);
+            var fileCell = row.insertCell(0);
+            var fileSizeCell = row.insertCell(1);
+            var fileTypeCell = row.insertCell(2);
             // Count bytes
             totalBytes += file.length;
             var a = document.createElement('a');
@@ -20,9 +24,10 @@ client.add(torrentId, function (torrent) {
             a.onclick = downloadFile(id);
             a.className += " list-group-item disabled";
             a.textContent = file.name;
-	    a.filesize = prettyBytes(file.length);
-	    a.filetype = file.name.substring(file.name.lastIndexOf(".")+1);
-            document.getElementById("file").appendChild(a);
+            fileSizeCell.innerHTML = prettyBytes(file.length);
+            fileTypeCell.innerHTML = file.name.substring(file.name.lastIndexOf(".")+1);
+            fileCell.appendChild(a);
+            //document.getElementById("file").appendChild(a);
             id++;
         });
         // Create download link
@@ -85,7 +90,8 @@ client.add(torrentId, function (torrent) {
             for (i = 0; i < as.length; i++) {
                 if (as[i].href.slice(-1) != "#" && as[i].classList.contains("disabled")) {
                     as[i].className = " list-group-item";
-		    as[i].innerHTML += " --- File Size: " + as[i].filesize + " --- File Type: " + as[i].filetype;
+                    as[i].innerHTML += '<span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>';
+		            //as[i].innerHTML += " --- File Size: " + as[i].filesize + " --- File Type: " + as[i].filetype;
                 }
             }
         }
