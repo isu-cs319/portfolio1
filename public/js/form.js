@@ -3,8 +3,9 @@
  */
 function setTorrentLink(){
     var torrentLink = document.forms["download-form"]["torrentlink"].value;
-    checkHTMLStorage(setHtmlStorage,'torrent-dl',torrentLink)
-    window.open("torrent.html","_self");
+    var boolean = checkHTMLStorage(setHtmlStorage,'torrent-dl',torrentLink)
+    window.open("../torrent.html","_self");
+    return boolean;
 }
 
 var client = new WebTorrent();
