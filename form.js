@@ -1,15 +1,31 @@
 /**
  * Created by schott on 25.09.16.
  */
-function setTorrentLink(){
-    var torrentLink = document.forms["download-form"]["torrentlink"].value;
-    return checkHTMLStorage(setHtmlStorage,'torrent-dl',torrentLink)
-}
 
 var client = new WebTorrent();
 var files = []; // Keeps track of encountered files
 new Clipboard('.clip');  // Copy to clipboard action
+client.on('error', function (err) {
+    client = new WebTorrent();
+    console.log(err)
+});
 
+
+function setTorrentLink(){
+    var torrentLink = document.forms["download-form"]["torrentlink"].value;
+    client.add(torrentLink, function (torrent) {
+        client.on('torrent', function (torrent) {})
+    });
+    if (client.get(torrentLink)){
+        return checkHTMLStorage(setHtmlStorage,'torrent-dl',torrentLink);
+    }
+    else{
+        document.getElementById("error-alert").innerHTML = "<strong> Invalid Torrent Link</strong>";
+        document.getElementById("error-alert").style.display="inline-block";
+        document.forms["download-form"]["torrentlink"].focus();
+        return false;
+    }
+}
 
 function handleFileSelect(evt) {
     evt.stopPropagation();
