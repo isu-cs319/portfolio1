@@ -4,6 +4,9 @@
 var torrentId = getHtmlStorage("torrent-dl");
 var client = new WebTorrent();
 var totalBytes = 0;
+client.on('error', function (err) {
+    console.log(err)
+});
 
 // Download the torrent
 client.add(torrentId, function (torrent) {
